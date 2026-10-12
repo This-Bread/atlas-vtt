@@ -35,28 +35,21 @@ export interface HitLocationRange {
 }
 
 /**
+ * Static definition of one body location.
+ *
+ * This describes what the location is, not its current combat state.
+ */
+export interface HitLocationDefinition {
+  id: string;
+  name: string;
+  roll: HitLocationRange;
+  category?: LocationCategory;
+}
+
+/**
  * State for one independently tracked body location.
  */
-export interface HitLocationState {
-  /**
-   * Stable machine-readable identifier.
-   *
-   * Example: "right-arm"
-   */
-  id: string;
-
-  /**
-   * Human-readable name shown in the UI.
-   *
-   * Example: "Right Arm"
-   */
-  name: string;
-
-  /**
-   * Die-roll range that selects this location.
-   */
-  roll: HitLocationRange;
-
+export interface HitLocationState extends HitLocationDefinition {
   /**
    * Current and maximum hit points for this location.
    *
@@ -71,11 +64,6 @@ export interface HitLocationState {
    * Current armor points protecting this location.
    */
   armor: number;
-
-  /**
-   * General anatomical category used by rules and UI.
-   */
-  category?: LocationCategory;
 
   /**
    * Optional state flags for future wound handling.
