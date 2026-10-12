@@ -3,6 +3,7 @@
 
 import type { InitiativeSide } from './types/initiativeRulesTypes';
 import type { LightEmission, TokenVision } from './types/lightingTypes';
+import type { LocationHealthState } from './types/locationHealthTypes';
 
 /**
  * Note pin object that links to an Obsidian note
@@ -83,6 +84,9 @@ export interface Character extends BaseToken {
   statblockPath?: string; // Path to linked statblock note
   /** Name read from the linked statblock; the nameplate falls back to it when `name` is empty. */
   statblockName?: string | null;
+
+  /** Optional location-based health state for systems such as Mythras. */
+  locationHealth?: LocationHealthState;
 }
 
 /**
