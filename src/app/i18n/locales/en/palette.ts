@@ -36,7 +36,7 @@ export const palette = {
   'palette.showMapInPlayerWindow': 'Show Current Map in Local Player Window',
   'palette.tab.all': 'All',
   'palette.tab.mode': 'Mode',
-  'palette.tab.settings': 'Settings - Mythras Dev',
+  'palette.tab.settings': 'Settings',
   'palette.tab.tools': 'Tools',
   'palette.tokenAppearance': 'Token appearance',
   'palette.tokenSettings': 'Token settings',
