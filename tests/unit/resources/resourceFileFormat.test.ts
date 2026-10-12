@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
+import type { Character } from '../../../src/app/types';
 import { sceneFromFile, sceneToFile, tokenFromFile, tokenSettingsFromFile, tokenSettingsToFile, tokenToFile } from '../../../src/app/resources/resourceFileFormat';
+
 
 describe('tokenFromFile', () => {
   it('reads object HP and numeric stress as resources', () => {
@@ -83,6 +85,63 @@ describe('tokenToFile', () => {
       overriddenMax: ['str'],
     });
   });
+
+  it('round-trips Mythras location health without changing it', () => {
+  const character: Character = {
+    id: 'mythras-character',
+    kind: 'character',
+    name: 'Test Fighter',
+    x: 10,
+    y: 20,
+    imagePath: 'fighter.png',
+
+    resources: {
+      hp: {
+        current: 8,
+        max: 10,
+      },
+    },
+
+    locationHealth: {
+      system: 'mythras',
+      die: 20,
+      anatomyId: 'mythras-humanoid',
+      locations: [
+        {
+          id: 'right-arm',
+          name: 'Right Arm',
+          roll: {
+            min: 13,
+            max: 15,
+          },
+          category: 'arm',
+          hp: {
+            current: -5,
+            max: 5,
+          },
+          armor: 2,
+          disabled: true,
+          severed: true,
+        },
+      ],
+    },
+  };
+
+  const restored =
+    tokenFromFile<Character>(tokenToFile(character) as Character);
+
+  expect(restored.locationHealth).toEqual(
+    character.locationHealth,
+  );
+
+  const rightArm =
+    restored.locationHealth?.locations[0];
+
+  expect(rightArm?.hp.current).toBe(-5);
+  expect(rightArm?.armor).toBe(2);
+  expect(rightArm?.disabled).toBe(true);
+  expect(rightArm?.severed).toBe(true);
+});
 });
 
 describe('sceneFromFile', () => {
